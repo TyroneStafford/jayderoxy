@@ -1,0 +1,33 @@
+<section class="component user-login">
+
+    <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <label class="mdl-textfield__label" for="email">Email Address</label>
+        <input
+            class="mdl-textfield__input"
+            v-model="form_data.email"
+            v-validate="'required|email'"
+            type="text"
+            name="email"
+            id="email"
+        >
+        <span v-show="errors.has('email')" class="mdl-textfield__error" style="visibility: visible;">{{ errors.first('email') }}</span>
+    </div><br>
+
+    <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <label class="mdl-textfield__label" for="password">Password</label>
+        <input
+            class="mdl-textfield__input"
+            v-model="form_data.password"
+            v-validate="'required|min:5'"
+            type="password"
+            name="password"
+            id="password"
+        >
+        <span v-show="errors.has('password')" class="mdl-textfield__error" style="visibility: visible;">{{ errors.first('password') }}</span>
+    </div><br>
+
+
+    <div class="form-group">
+        <button v-on:click="submit()">Log In</button>
+    </div>
+</section>

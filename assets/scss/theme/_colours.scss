@@ -1,0 +1,20 @@
+$primary: #2C3E50;
+$secondary: #E74C3C;
+$tertiary: #ECF0F1;
+
+$white: #fff;
+$pink: rgb(233,30,99);
+
+// tints
+$primaryTint: tint($primary, 50%);
+$secondaryTint: tint($secondary, 50%);
+$tertiaryTint: tint($tertiary, 50%);
+
+// shades
+$primaryShade: shade($primary, 50%);
+$secondaryShade: shade($secondary, 50%);
+$tertiaryShade: shade($tertiary, 50%);
+
+// transparents
+$alpha: rgba(255, 255, 255, 0.4);
+$alphaBlack: rgba(0, 0, 0, 0.4);

@@ -1,0 +1,71 @@
+<section class="component user-register">
+
+    <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <label class="mdl-textfield__label" for="first_name">First Name</label>
+        <input
+                class="mdl-textfield__input"
+                v-model="form_data.first_name"
+                v-validate="'required|min:3'"
+                type="text"
+                name="first_name"
+                id="first_name"
+        >
+        <span v-show="errors.has('first_name')" class="mdl-textfield__error" style="visibility: visible;">{{ errors.first('first_name') }}</span>
+    </div><br>
+
+    <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <label class="mdl-textfield__label" for="last_name">Last Name</label>
+        <input
+                class="mdl-textfield__input"
+                v-model="form_data.last_name"
+                v-validate="'required|min:3'"
+                type="text"
+                name="last_name"
+                id="last_name"
+        >
+        <span v-show="errors.has('last_name')" class="mdl-textfield__error" style="visibility: visible;">{{ errors.first('last_name') }}</span>
+    </div><br>
+
+    <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <label class="mdl-textfield__label" for="email_addess">Email Address</label>
+        <input
+                class="mdl-textfield__input"
+                v-model="form_data.email_addess"
+                v-validate="'required|min:3'"
+                type="text"
+                name="email_addess"
+                id="email_addess"
+        >
+        <span v-show="errors.has('email_addess')" class="mdl-textfield__error" style="visibility: visible;">{{ errors.first('email_addess') }}</span>
+    </div><br>
+
+    <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <label class="mdl-textfield__label" for="password">Password</label>
+        <input
+                class="mdl-textfield__input"
+                v-model="form_data.password"
+                v-validate="'required|min:3'"
+                type="password"
+                name="password"
+                id="password"
+        >
+        <span v-show="errors.has('password')" class="mdl-textfield__error" style="visibility: visible;">{{ errors.first('password') }}</span>
+    </div><br>
+
+    <div class="form-group mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <label class="mdl-textfield__label" for="confirm_password">Confirm Password</label>
+        <input
+                class="mdl-textfield__input"
+                v-validate="'required|confirmed:password'"
+                type="password"
+                name="confirm_password"
+                id="confirm_password"
+        >
+        <span v-show="errors.has('confirm_password')" class="mdl-textfield__error" style="visibility: visible;">{{ errors.first('confirm_password') }}</span>
+    </div><br>
+
+    <div class="form-group">
+        <button v-on:click="submit()">Register</button>
+    </div>
+
+</section>

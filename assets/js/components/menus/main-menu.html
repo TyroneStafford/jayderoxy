@@ -1,0 +1,13 @@
+<div class="mdl-layout__drawer component main-menu">
+  <span class="mdl-layout-title">MENU</span>
+  <nav class="mdl-navigation">
+  	<ul>
+  	    <li v-if="isVisible(link)" v-for="link in links"><a class="mdl-navigation__link" href="#" v-on:click.prevent="goTo(link.href)">{{link.title}}</a>
+
+  	    <ul v-if="link.links.length > 0">
+  	        <li v-if="isVisible(sublink)" v-for="sublink in link.links"><a class="mdl-navigation__link" href="#" v-on:click.prevent="goTo(sublink.href)">{{sublink.title}}</a></li>
+  	    </ul>
+  	    </li>
+  	</ul>
+  </nav>
+</div>

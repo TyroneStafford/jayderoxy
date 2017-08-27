@@ -1,0 +1,15 @@
+.mdl-layout__drawer {
+	.mdl-navigation {
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			.mdl-navigation__link {
+				padding: 10px 15px;
+			}
+			ul {
+				padding-left: 15px;
+			}
+		}
+	}
+}

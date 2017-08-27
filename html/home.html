@@ -1,0 +1,245 @@
+<div class="page-content">
+
+  <div v-bind:class="{ activated: showModal }" class="overlay"></div>
+
+  <div v-if="showModal" v-bind:class="{ activated: showModal }" class="detail-holder">
+    <button v-on:click="closeModal" class="mdl-button mdl-js-button mdl-button--primary">
+      <i class="material-icons">cancel</i>
+    </button>
+    <h1>{{ clients[clientSelected].name }}</h1>
+    <div class="clearfix">
+      <img width="45%" class="pull-left" :src="clients[clientSelected].picture_before[detailSelected]._url" alt="">
+      <img width="45%" class="pull-right" :src="clients[clientSelected].picture_after[detailSelected]._url" alt="">
+    </div>
+    <div>
+      <span>{{ clients[clientSelected].createdAt }}</span>
+      <table class="mdl-data-table mdl-js-data-table">
+        <thead>
+          <tr>
+            <th class="mdl-data-table__cell--non-numeric">Notes</th>
+          </tr>
+          <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              {{ clients[clientSelected].notes[detailSelected] }}
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MDL-GRID -->
+  <div class="mdl-grid my-grid">
+    <div v-if="loggedIn" class="mdl-cell mdl-cell--6-col mdl-cell--3-offset-desktop	mdl-cell--1-offset-tablet">
+
+      <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+        <div class="mdl-tabs__tab-bar">
+          <a href="#client-panel" class="mdl-tabs__tab is-active">Add</a>
+          <a v-on:click="refresh()" href="#send-panel" class="mdl-tabs__tab">Send</a>
+          <a v-on:click="refresh()" href="#archive-panel" class="mdl-tabs__tab">Archive</a>
+        </div>
+
+        <div class="mdl-tabs__panel is-active" id="client-panel">
+          <form action="#">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="text" id="name" v-model="addClient.name">
+              <label class="mdl-textfield__label" for="name">Name</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="email" id="email" v-model="addClient.email">
+              <label class="mdl-textfield__label" for="email">Email Address</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="text" id="phone" v-model="addClient.phone">
+              <label class="mdl-textfield__label" for="phone">Phone Nmber</label>
+            </div>
+
+            <button v-on:click="clientAdd(), $event" class="mdl-button mdl-js-button mdl-button--primary pull-right">
+              Submit
+            </button>
+          </form>
+        </div>
+        <div class="mdl-tabs__panel" id="send-panel">
+          <form action="">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height">
+              <input class="mdl-textfield__input" type="text" id="clientName" value="" readonly tabIndex="-1">
+              <label for="clientName">
+                <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+              </label>
+              <label for="clientName" class="mdl-textfield__label">Select Client</label>
+              <ul for="clientName" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                <li class="mdl-menu__item" data-val="DE">Sarah Price</li>
+                <li class="mdl-menu__item" data-val="BY">Janice Oslow</li>
+                <li class="mdl-menu__item" data-val="RU">Melissa Kircher</li>
+              </ul>
+            </div>
+            <label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
+              <i class="material-icons">attach_file</i><input type="file" id="file">
+            </label> <span class="file-label">Attach Photo</span>
+          </form>
+        </div>
+
+        <div class="mdl-tabs__panel" id="archive-panel">
+
+          <div class="mdl-cell mdl-cell--6-col pull-left">
+            <form action="#">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+                  <i class="material-icons">search</i>
+                </label>
+                <div class="mdl-textfield__expandable-holder">
+                  <input class="mdl-textfield__input" type="text" id="search">
+                  <label class="mdl-textfield__label" for="sample-expandable">Type client name...</label>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="mdl-cell mdl-cell--6-col pull-right">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height">
+              <input class="mdl-textfield__input" type="text" id="searchClientName" readonly tabIndex="-1">
+              <label for="searchClientName">
+                <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+              </label>
+              <label for="searchClientName" class="mdl-textfield__label">Select Client</label>
+              <ul for="searchClientName" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                <li class="mdl-menu__item" v-for="(client, index) in this.clients" :data-count="index" v-on:click="clientCheck($event)">{{ client.name }}</li>
+              </ul>
+            </div>
+          </div>
+
+          <div v-if="clientSelected" class="mdl-cell mdl-cell--12-col pull-left">
+            <div class="archive-add clearfix">
+              <h2 class="archive-heading">Client Details <i class="material-icons">person</i></h2>
+              <p>Phone: <input id="edit-phone" v-model="selectedPhone" v-bind:readonly="!editState" /></p>
+              <p>Email: <input id="edit-email" v-model="selectedEmail" v-bind:readonly="!editState" /></p>
+              <button v-if="!editState" v-on:click="editing()" class="mdl-button mdl-js-button mdl-button--primary pull-right">
+                Edit <i class="material-icons">create</i>
+              </button>
+              <button v-if="editState" v-on:click="saving()" class="mdl-button mdl-js-button mdl-button--primary pull-right">
+                Update <i class="material-icons">done_all</i>
+              </button>
+            </div>
+          </div>
+
+          <div v-if="clientSelected" class="mdl-cell mdl-cell--12-col pull-left">
+            <table class="mdl-data-table mdl-js-data-table" width="100%">
+              <thead>
+                <tr>
+                  <th class="mdl-data-table__cell--non-numeric">Image</th>
+                  <th>Date</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr
+                v-for="(note, index) in this.clients[this.clientSelected].notes"
+                v-bind:id="index"
+                v-on:click="noteIndex($event)">
+                  <td class="mdl-data-table__cell--non-numeric">
+                    <img width="30px" :src="clients[clientSelected].picture_after[index]._url" alt="">
+                  </td>
+                  <td class="noteDate">{{ clients[clientSelected].createdAt | lowercase }}</td>
+                  <td><i class="material-icons">visibility</i></td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <div v-if="clientSelected" class="mdl-cell mdl-cell--12-col pull-left">
+            <div class="archive-add clearfix">
+              <h2 class="archive-heading">Add Notes <i class="material-icons">add</i></h2>
+
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--file">
+                <input v-model="fileNameBefore" class="mdl-textfield__input" placeholder="Before..." type="text" id="uploadFile" readonly/>
+                <div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+                  <i class="material-icons">attach_file</i><input @change="onFileChangeBefore()" type="file" id="uploadBtnBefore">
+                </div>
+              </div>
+              <br />
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--file">
+                <input v-model="fileNameAfter" class="mdl-textfield__input" placeholder="After..." type="text" id="uploadFile" readonly/>
+                <div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+                  <i class="material-icons">attach_file</i><input @change="onFileChangeAfter()" type="file" id="uploadBtnAfter">
+                </div>
+              </div>
+
+              <!-- <label class="mdl-button mdl-js-button mdl-button--icon" for="date-notes">
+                <i class="material-icons">date_range</i>
+              </label><input type="date" id="date-notes"> -->
+              <textarea name="Notes" placeholder="Treatment Notes" v-model="noteTextArea"></textarea>
+              <button v-on:click="saveNote()" class="mdl-button mdl-js-button mdl-button--primary pull-right">
+                Add
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div v-if="!loggedIn" class="logger">
+      <div class="mdl-card mdl-shadow--2dp card-login">
+        <div class="mdl-card__title">
+          <h2 v-if="!signup" class="mdl-card__title-text">Login</h2>
+          <h2 v-if="signup" class="mdl-card__title-text">Signup</h2>
+        </div>
+
+<form>
+        <div v-if="!signup" class="mdl-card__supporting-text">
+          <div class="mdl-textfield mdl-js-textfield">
+            <input v-model="userLogin.email" class="mdl-textfield__input" type="email" id="loginName">
+            <label class="mdl-textfield__label" for="loginName">Email address</label>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield">
+            <input v-model="userLogin.password" class="mdl-textfield__input" type="password" id="loginPassword">
+            <label class="mdl-textfield__label" for="loginPassword">Password</label>
+          </div>
+        </div>
+
+        <div v-if="signup" class="mdl-card__supporting-text">
+          <div class="mdl-textfield mdl-js-textfield">
+            <input v-model="userSignup.email" class="mdl-textfield__input" type="email" id="signupName">
+            <label class="mdl-textfield__label" for="signupName">Email address</label>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield">
+            <input v-model="userSignup.password" class="mdl-textfield__input" type="password" id="signupPassword">
+            <label class="mdl-textfield__label" for="signupPassword">Password</label>
+          </div>
+        </div>
+</form>
+
+        <div v-if="signup" v-on:click="deactivateSignup" class="btn-signup">Back to Login</div>
+        <div v-if="!signup" v-on:click="activateSignup" class="btn-signup">Signup</div>
+
+        <div class="mdl-card__actions mdl-card--border">
+          <button v-on:click="loginUser" v-if="!signup" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary">
+            Log Me In
+          </button>
+          <button v-if="signup" v-on:click="createUser" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
+            Sign Me Up
+          </button>
+        </div>
+
+        <div class="mdl-card__menu">
+          <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+            <i class="material-icons">vpn_key</i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /MDL-GRID -->
+
+  <!-- TOASTER -->
+  <div id="toast" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+  </div>
+</div>
