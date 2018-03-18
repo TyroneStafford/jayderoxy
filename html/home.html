@@ -55,6 +55,10 @@
               <input class="mdl-textfield__input" type="text" id="phone" v-model="addClient.phone">
               <label class="mdl-textfield__label" for="phone">Phone Nmber</label>
             </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="text" id="instagram" v-model="addClient.instagram" placeholder="@johnsmith">
+              <label class="mdl-textfield__label" for="phone">Instagram Handle</label>
+            </div>
 
             <button v-on:click="clientAdd(), $event" class="mdl-button mdl-js-button mdl-button--primary pull-right">
               Submit
