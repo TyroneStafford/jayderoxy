@@ -3,10 +3,9 @@ import {Carousel,Slide} from "vue-carousel";
 import { Parse } from "parse";
 
 Parse.initialize(
-  "ax3dc5DJ4HCykT0iQg1534CRMLNbRj5OqPfQNc7S",
-  "I7eQbY79m207kSO254gsJatflRMNRIPjQmPLOSa5"
+  'T1JEdpgNUOXNHTph1aacYCpQfKOPaIP7S7dnGEkP'
 );
-Parse.serverURL = 'https://pg-app-xe0mtwqz6juisyx1f5escelppya812.scalabl.cloud/1/';
+Parse.serverURL = 'https://pg-app-mzsf61wal3t529qdsudf8dq5yfl9fx.scalabl.cloud/1/';
 
 export var HomeController = {
   props: [],
