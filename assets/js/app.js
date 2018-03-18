@@ -6,9 +6,9 @@ import {Routes} from './app.routes';
 import Vuex from 'vuex';
 import { State } from './app.state';
 import VeeValidate from 'vee-validate';
-import { MainMenu } from './app.menus';
-import { MainMenuComponent } from './components/menus/main-menu.component';
-import { HeaderComponent } from './components/header/main-header.component';
+// import { MainMenu } from './app.menus';
+// import { MainMenuComponent } from './components/menus/main-menu.component';
+// import { HeaderComponent } from './components/header/main-header.component';
 
 import Vue2Filters from 'vue2-filters'
 Vue.use(Vue2Filters);
@@ -44,7 +44,7 @@ Vue.prototype.fixMDLFields = function() {
 const state = new Vuex.Store(State);
 state.config = Config;
 state.router = router;
-state.mainMenu = MainMenu;
+// state.mainMenu = MainMenu;
 
 const application = new Vue({
     router: router,
@@ -55,8 +55,8 @@ const application = new Vue({
         appState: state
     },
     components: {
-        'main-menu': MainMenuComponent,
-        'main-header': HeaderComponent
+        // 'main-menu': MainMenuComponent,
+        // 'main-header': HeaderComponent
     },
     provide: {
         appState: state,

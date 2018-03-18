@@ -9,7 +9,7 @@ export var HeaderComponent = {
         }
     },
     created() {
-        console.log(this.links);
+        // console.log(this.links);
     },
     methods: {
         // toggleMenu : function() {
